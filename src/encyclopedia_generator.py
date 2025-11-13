@@ -94,8 +94,6 @@ def main():
     .book {
       position: relative;
       display: flex;
-      width: 375px;
-      height: 500px;
       left: 50%;
       margin-top: auto;
       margin-bottom: auto;
@@ -104,6 +102,8 @@ def main():
       transition: transform 0.3s ease;
       rotate: 1 0 0 30deg;
       transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+      max-width: calc(min(375px, 50vw));
+      aspect-ratio: 3 / 4;
     }
 
 
@@ -210,43 +210,55 @@ def main():
       box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.04);
     }
 
-    .entry-image {
-      flex: 0 0 25%;
-      max-width: 25%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 64px;
-    }
+      .entry-image {
+        aspect-ratio: 3 / 2;
+        width: 100%;
+        max-width: 25%;
+        min-width: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        background: linear-gradient(180deg,#fbf6eb,#f3ead1);
+        border-radius: 6px;
+        padding: 6px;
+        box-sizing: border-box;
+      }
 
-    .entry-image img {
-      width: 100%;
-      height: auto;
-      max-height: 90px;
-      object-fit: contain;
-      border: 1px solid #e6d6b0;
-      background: #fffdf6;
-      padding: 4px;
-      border-radius: 4px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-    }
 
-    .no-img {
-      width: 100%;
-      height: 100%;
-      min-height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 2px dashed #c9bfae;
-      background: linear-gradient(180deg, #fbf6eb, #f3ead1);
-      font-family: "IM Fell English SC", "IM Fell English", Georgia, serif;
-      color: #3a2f21;
-      padding: 0.25rem;
-      text-align: center;
-      font-size: 0.6rem;
-      border-radius: 4px;
-    }
+      .entry-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        object-position: center center;
+        display: block;
+        max-width: none;
+        border-radius: 4px;
+      }
+
+
+      .no-img {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px dashed #c9bfae;
+        background: linear-gradient(180deg, #fbf6eb, #f3ead1);
+        font-family: "IM Fell English SC", "IM Fell English", Georgia, serif;
+        color: #3a2f21;
+        padding: 0.25rem;
+        text-align: center;
+        font-size: 0.6rem;
+        border-radius: 4px;
+        }
+
+
+      @media (max-width: 420px) {
+        .entry-image { aspect-ratio: 4 / 3; max-width: none; width: 100%; min-height: 110px; }
+        .entry-image img { max-height: 160px; }
+      }
+
 
     .entry-text {
       flex: 1 1 67%;
@@ -294,7 +306,7 @@ def main():
     .cover h1 {
       margin: 0;
       font-family: "IM Fell English SC", "Cinzel", Georgia, serif;
-      font-size: 1.35rem;
+      font-size: 100%;
       font-variant: small-caps;
       letter-spacing: 1.5px;
     }
@@ -322,7 +334,7 @@ def main():
       .entry-image {
         flex: 0 0 auto;
         width: 100%;
-        max-width: 100%;
+        max-width: 25%;
         min-height: 100px;
       }
       .entry-image img {
