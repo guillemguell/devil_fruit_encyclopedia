@@ -4,6 +4,7 @@ import json
 import os
 from pathlib import Path
 import re
+import shutil
 
 THIS_DIR = Path(__file__).resolve().parent
 ROOT = THIS_DIR.parent
@@ -13,15 +14,24 @@ out_dir.mkdir(parents=True, exist_ok=True)
 out_index = out_dir / "index.html"
 out_css = out_dir / "styles.css"
 out_js = out_dir / "script.js"
+img_src_base = ROOT / "data" / "devil_fruits_imgs"
 img_base = out_dir / "data" / "devil_fruits_imgs"
 img_base.mkdir(parents=True, exist_ok=True)
-mp3_path = out_dir / "assets" / "turn_a_page.mp3"
-
+assets_src = ROOT / "assets" / "turn_a_page.mp3"
+assets_dir = out_dir / "assets"
+assets_dir.mkdir(parents=True, exist_ok=True)
+if assets_src.exists():
+    shutil.copy(assets_src, assets_dir / "turn_a_page.mp3")
+for f in img_src_base.glob("*.*"):
+    try:
+        shutil.copy(f, img_base / f.name)
+    except Exception:
+        pass
+mp3_rel = "assets/turn_a_page.mp3"
 
 def main():
     entries = []
     excluded_fruits = ['Artificial Devil Fruit']
-
     if not csv_path.exists():
         print(f"⚠️ Warning: CSV file {csv_path} not found. Producing an HTML with no entries.")
     else:
@@ -51,9 +61,7 @@ def main():
                         "type": typ,
                         "abilities": abilities
                     })
-
     entries.sort(key=lambda e: e["name"].lower())
-
     for entry in entries:
         safe_name = re.sub(r"[^A-Za-z0-9]+", "_", entry["name"]).strip("_")
         img_file = img_base / f"{safe_name}.png"
@@ -66,13 +74,10 @@ def main():
                     img_file = alt
                     break
         if img_file.exists():
-            rel = Path(os.path.relpath(img_file, start=out_dir))
-            entry["image"] = rel.as_posix()
+            entry["image"] = f"data/devil_fruits_imgs/{img_file.name}"
         else:
             entry["image"] = None
-
     entries_json = json.dumps(entries, ensure_ascii=False, indent=2)
-
     css_content = """* {
       box-sizing: border-box;
     }
@@ -372,7 +377,6 @@ def main():
       .book .tab { right: -28px; width: 26px; font-size: 0.6rem; }
     }
     """
-
     js_template = """const entries = <<ENTRIES>>;
 
     const book = document.getElementById("devil-book");
@@ -625,11 +629,7 @@ def main():
       });
     })();
     """
-
     js_content = js_template.replace("<<ENTRIES>>", entries_json)
-
-    mp3_rel = Path(os.path.relpath(mp3_path, start=out_dir)).as_posix()
-
     index_html = f"""<!DOCTYPE html>
     <html lang="en">
       <head>
@@ -657,12 +657,10 @@ def main():
       </body>
     </html>
     """
-
     out_css.write_text(css_content, encoding="utf-8")
     out_js.write_text(js_content, encoding="utf-8")
     out_index.write_text(index_html, encoding="utf-8")
     print(f"Wrote index to {out_index.resolve()} css to {out_css.resolve()} js to {out_js.resolve()} (entries: {len(entries)})")
-
 
 if __name__ == '__main__':
     main()
