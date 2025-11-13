@@ -8,7 +8,7 @@ import re
 THIS_DIR = Path(__file__).resolve().parent
 ROOT = THIS_DIR.parent
 csv_path = ROOT / "data" / "devil_fruits_raw.csv"
-out_dir = ROOT
+out_dir = ROOT / "docs"
 out_dir.mkdir(parents=True, exist_ok=True)
 out_index = out_dir / "index.html"
 out_css = out_dir / "styles.css"

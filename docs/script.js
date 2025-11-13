@@ -1,345 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>DEVIL FRUIT ENCYCLOPEDIA</title>
-
-    <link
-      href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&display=swap"
-      rel="stylesheet"
-    />
-
-    <audio id="pageFlipSound" preload="auto">
-      <source src="file:///C:/Users/usuari/source/repos/one_piece_database/src/devil_fruit_encyclopedia/turn_a_page.mp3" type="audio/mpeg">
-    </audio>
-
-    <style>
-      * {
-        box-sizing: border-box;
-      }
-      body {
-        margin: 0;
-        display: flex;
-        height: 100dvh;
-        perspective: 900px;
-        font: 16px/1.4 sans-serif;
-        overflow: hidden;
-        background-color: #232425;
-      }
-
-      .book {
-        position: relative;
-        display: flex;
-        margin: auto;
-        width: 375px;
-        height: 500px;
-        pointer-events: none;
-        transform-style: preserve-3d;
-        transition: transform 0.3s ease;
-        rotate: 1 0 0 30deg;
-        transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
-      }
-
-      .page {
-        --thickness: 2px;
-        flex: none;
-        display: flex;
-        width: 100%;
-        height: 100%;
-        pointer-events: all;
-        user-select: none;
-        transform-style: preserve-3d;
-        border: 1px solid #0008;
-        transform-origin: left center;
-        transition: transform 1s,
-          rotate 1s ease-in
-            calc((min(var(--i), var(--c)) - max(var(--i), var(--c))) * 50ms);
-        translate: calc(var(--i) * -100%) 0px 0px;
-        transform: translateZ(calc(var(--i) * var(--thickness)))
-          translateZ(calc((var(--c) - var(--i) - 0.5) * 5px));
-        rotate: 0 1 0 calc(clamp(0, var(--c) - var(--i), 1) * -180deg);
-        position: relative;
-        background: linear-gradient(
-          180deg,
-          #fff7df 0%,
-          #f1dfb3 60%,
-          #e9d5a0 100%
-        );
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
-        padding: 0.6rem;
-        overflow: visible;
-      }
-
-      .front,
-      .back {
-        flex: none;
-        width: 100%;
-        height: 100%;
-        padding: 0.6rem;
-        backface-visibility: hidden;
-        background-color: #fff;
-        translate: 0px;
-        box-shadow: inset 0 0 3px #0002;
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .back {
-        background-image: linear-gradient(to right, #fff 80%, #eee 100%);
-        translate: -100% 0;
-        rotate: 0 1 0 180deg;
-      }
-
-      .page::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        right: -1px;
-        width: var(--thickness);
-        height: 100%;
-        background: linear-gradient(to right, #ccc, #999);
-        transform: rotateY(90deg) translateX(calc(var(--thickness) / 2));
-        transform-origin: left;
-      }
-
-      .page .page-content {
-        height: 100%;
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: repeat(4, 1fr);
-        gap: 0.5rem;
-        align-content: start;
-        padding: 0;
-      }
-
-      .entry {
-        display: flex;
-        flex-direction: row;
-        gap: 0.6rem;
-        align-items: stretch;
-        background: linear-gradient(
-          180deg,
-          rgba(255, 255, 245, 0.96),
-          rgba(255, 250, 230, 0.96)
-        );
-        border-radius: 8px;
-        padding: 0.45rem;
-        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08),
-          inset 0 1px 0 rgba(255, 255, 255, 0.6);
-        min-height: 0;
-        border: 1px solid #b9924a;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .entry::after {
-        content: "";
-        position: absolute;
-        inset: 6px;
-        border-radius: 6px;
-        pointer-events: none;
-        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.04);
-      }
-
-      .entry-image {
-        flex: 0 0 25%;
-        max-width: 25%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 64px;
-      }
-
-      .entry-image img {
-        width: 100%;
-        height: auto;
-        max-height: 90px;
-        object-fit: contain;
-        border: 1px solid #e6d6b0;
-        background: #fffdf6;
-        padding: 4px;
-        border-radius: 4px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-      }
-
-      .no-img {
-        width: 100%;
-        height: 100%;
-        min-height: 64px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 2px dashed #c9bfae;
-        background: linear-gradient(180deg, #fbf6eb, #f3ead1);
-        font-family: "IM Fell English SC", "IM Fell English", Georgia, serif;
-        color: #3a2f21;
-        padding: 0.25rem;
-        text-align: center;
-        font-size: 0.6rem;
-        border-radius: 4px;
-      }
-
-      .entry-text {
-        flex: 1 1 67%;
-        min-width: 0;
-        display: flex;
-        flex-direction: column;
-        justify-content: start;
-        gap: 0.125rem;
-        padding-left: 0.15rem;
-      }
-
-      .devil-title {
-        font-family: "IM Fell English SC", "IM Fell English", Georgia,
-          "Times New Roman", serif;
-        font-size: 0.75rem;
-        margin: 0;
-        color: #21160d;
-      }
-
-      .devil-meta {
-        font-family: "EB Garamond", Georgia, "Times New Roman", serif;
-        font-size: 0.6rem;
-        margin: 0;
-        color: #3b2e25;
-      }
-
-      .devil-abilities {
-        font-family: "EB Garamond", Georgia, "Times New Roman", serif;
-        font-size: 0.6rem;
-        color: #2e2a23;
-        line-height: 1.2;
-        white-space: pre-wrap;
-      }
-
-      .cover {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 0.25rem;
-        text-align: center;
-        background-color: #7A5A3A;
-        padding: 2rem;
-      }
-      .cover h1 {
-        margin: 0;
-        font-family: "IM Fell English SC", "Cinzel", Georgia, serif;
-        font-size: 1.35rem;
-        font-variant: small-caps;
-        letter-spacing: 1.5px;
-      }
-      .cover h3 {
-        margin: 0;
-        font-family: Georgia, "Times New Roman", serif;
-        font-size: 0.85rem;
-        color: #4a3b2e;
-      }
-
-
-      .backcover .back {
-        background-color: #7A5A3A;
-        background-image: none;
-        color: #F6E9D7;
-      }
-
-
-      @media (max-width: 420px) {
-        .page .page-content {
-          grid-template-rows: repeat(4, auto);
-        }
-        .entry {
-          flex-direction: column;
-          padding: 0.5rem;
-        }
-        .entry-image {
-          flex: 0 0 auto;
-          width: 100%;
-          max-width: 100%;
-          min-height: 100px;
-        }
-        .entry-image img {
-          height: 100%;
-          width: auto;
-          max-height: 160px;
-        }
-        .entry-text {
-          padding-left: 0;
-        }
-      }
-
-      .page .tab {
-        right: -33px;
-        width: 34px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 2px;
-        background: linear-gradient(180deg,#fff7df,#f1dfb3);
-        font-size: 0.65rem;
-        color: #23160d;
-        cursor: pointer;
-        z-index: 9999;
-        box-sizing: border-box;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        transition: opacity 0.2s ease;
-      }
-
-      .book .tab {
-        position: absolute;
-        right: -33px;
-        pointer-events: auto;
-      }
-
-      .page .tab._auto {
-        pointer-events: auto;
-      }
-      .page .tab.disabled {
-        opacity: 0.45;
-        cursor: default;
-        pointer-events: none;
-      }
-      .page .tab:hover:not(.disabled) {
-        opacity: 0.8;
-      }
-
-      @media (max-width: 420px) {
-        .page .tab { right: -28px; width: 26px; font-size: 0.6rem; }
-        .book .tab { right: -28px; width: 26px; font-size: 0.6rem; }
-      }
-
-    </style>
-  </head>
-
-  <body>
-    <div class="book" id="devil-book">
-      <div class="page">
-        <div class="front cover">
-          <h1>DEVIL FRUIT ENCYCLOPEDIA</h1>
-        </div>
-        <div class="back">
-          <div style="text-align: center"></div>
-        </div>
-      </div>
-    </div>
-
-    <script>
-      const entries = [
+const entries = [
   {
     "name": "Aro Aro no Mi",
     "type": "Paramecia",
     "abilities": "Grants the user the ability to generate and control tangible vectorial arrows capable of manipulating motion and its properties, making them an Arrow Human",
-    "image": null
-  },
-  {
-    "name": "Artificial Devil Fruit",
-    "type": "",
-    "abilities": "",
     "image": null
   },
   {
@@ -352,13 +15,13 @@
     "name": "Awa Awa no Mi",
     "type": "Paramecia",
     "abilities": "Allows the user to emit and control soap and bubbles that can not only clean off dirt but can also \"clean off\" power, making the user a Soap Human",
-    "image": "file:///C:/Users/usuari/source/repos/one_piece_database/data/raw/devil_fruits_imgs/Awa_Awa_no_Mi.png"
+    "image": "../data/devil_fruits_imgs/Awa_Awa_no_Mi.png"
   },
   {
     "name": "Baku Baku no Mi",
     "type": "Paramecia",
     "abilities": "Allows the user to eat any object, including living beings, and merge it into their body or with other objects they eat",
-    "image": "file:///C:/Users/usuari/source/repos/one_piece_database/data/raw/devil_fruits_imgs/Baku_Baku_no_Mi.png"
+    "image": "../data/devil_fruits_imgs/Baku_Baku_no_Mi.png"
   },
   {
     "name": "Bane Bane no Mi",
@@ -370,7 +33,7 @@
     "name": "Bara Bara no Mi",
     "type": "Paramecia",
     "abilities": "Allows the user to split their own body into pieces and levitate said pieces at will, while granting a passive immunity to all slashes and cuts, making the user a Splitting Human",
-    "image": "file:///C:/Users/usuari/source/repos/one_piece_database/data/raw/devil_fruits_imgs/Bara_Bara_no_Mi.png"
+    "image": "../data/devil_fruits_imgs/Bara_Bara_no_Mi.png"
   },
   {
     "name": "Bari Bari no Mi",
@@ -412,7 +75,7 @@
     "name": "Bomu Bomu no Mi",
     "type": "Paramecia",
     "abilities": "Allows the user to make any part of their body explode , whether it be their limbs, hair, mucus, even breath or cough, making the user a Bomb Human",
-    "image": "file:///C:/Users/usuari/source/repos/one_piece_database/data/raw/devil_fruits_imgs/Bomu_Bomu_no_Mi.png"
+    "image": "../data/devil_fruits_imgs/Bomu_Bomu_no_Mi.png"
   },
   {
     "name": "Buki Buki no Mi",
@@ -460,13 +123,13 @@
     "name": "Doru Doru no Mi",
     "type": "Paramecia",
     "abilities": "Allows the user to create large quantities of candle wax from their body and control it, making the user a Candle Human",
-    "image": "file:///C:/Users/usuari/source/repos/one_piece_database/data/raw/devil_fruits_imgs/Doru_Doru_no_Mi.png"
+    "image": "../data/devil_fruits_imgs/Doru_Doru_no_Mi.png"
   },
   {
     "name": "Fude Fude no Mi",
     "type": "Paramecia",
     "abilities": "Allows the user to generate ink from their body and use a painting brush to turn images created with that ink into three-dimensional, lifelike objects",
-    "image": "file:///C:/Users/usuari/source/repos/one_piece_database/data/raw/devil_fruits_imgs/Fude_Fude_no_Mi.png"
+    "image": "../data/devil_fruits_imgs/Fude_Fude_no_Mi.png"
   },
   {
     "name": "Fuku Fuku no Mi",
@@ -508,13 +171,13 @@
     "name": "Gomu Gomu no Mi",
     "type": "Paramecia Mythical Zoan",
     "abilities": "Grants the user's body the properties of rubber, effectively making them a Rubber Human",
-    "image": "file:///C:/Users/usuari/source/repos/one_piece_database/data/raw/devil_fruits_imgs/Gomu_Gomu_no_Mi.png"
+    "image": "../data/devil_fruits_imgs/Gomu_Gomu_no_Mi.png"
   },
   {
     "name": "Goro Goro no Mi",
     "type": "Logia",
     "abilities": "Grants the power to create, control, and become lightning at will, making the user a Lightning Human  ; it is one of the few abilities touted as \"invincible\" according to Nico Robin",
-    "image": "file:///C:/Users/usuari/source/repos/one_piece_database/data/raw/devil_fruits_imgs/Goro_Goro_no_Mi.png"
+    "image": "../data/devil_fruits_imgs/Goro_Goro_no_Mi.png"
   },
   {
     "name": "Gunyo Gunyo no Mi",
@@ -526,7 +189,7 @@
     "name": "Gura Gura no Mi",
     "type": "Paramecia",
     "abilities": "Allows the user to create vibrations, or \"quakes\", making the user a Tremor Human",
-    "image": "file:///C:/Users/usuari/source/repos/one_piece_database/data/raw/devil_fruits_imgs/Gura_Gura_no_Mi.png"
+    "image": "../data/devil_fruits_imgs/Gura_Gura_no_Mi.png"
   },
   {
     "name": "Guru Guru no Mi",
@@ -538,7 +201,7 @@
     "name": "Hana Hana no Mi",
     "type": "Paramecia",
     "abilities": "Allows the user to replicate and sprout pieces of their body from the surface of any object or living thing",
-    "image": "file:///C:/Users/usuari/source/repos/one_piece_database/data/raw/devil_fruits_imgs/Hana_Hana_no_Mi.png"
+    "image": "../data/devil_fruits_imgs/Hana_Hana_no_Mi.png"
   },
   {
     "name": "Hebi Hebi no Mi, Model: Anaconda",
@@ -574,7 +237,7 @@
     "name": "Hito Hito no Mi",
     "type": "Zoan",
     "abilities": "Allows its user to transform into a human hybrid or a human at will",
-    "image": "file:///C:/Users/usuari/source/repos/one_piece_database/data/raw/devil_fruits_imgs/Hito_Hito_no_Mi.png"
+    "image": "../data/devil_fruits_imgs/Hito_Hito_no_Mi.png"
   },
   {
     "name": "Hito Hito no Mi, Model: Daibutsu",
@@ -598,13 +261,13 @@
     "name": "Hobi Hobi no Mi",
     "type": "Paramecia",
     "abilities": "Allows the user to transform living people into toys , and erase memories of their existence from others",
-    "image": "file:///C:/Users/usuari/source/repos/one_piece_database/data/raw/devil_fruits_imgs/Hobi_Hobi_no_Mi.png"
+    "image": "../data/devil_fruits_imgs/Hobi_Hobi_no_Mi.png"
   },
   {
     "name": "Horo Horo no Mi",
     "type": "Paramecia",
     "abilities": "Allows the user to conjure ghosts, making the user a Ghost Human",
-    "image": "file:///C:/Users/usuari/source/repos/one_piece_database/data/raw/devil_fruits_imgs/Horo_Horo_no_Mi.png"
+    "image": "../data/devil_fruits_imgs/Horo_Horo_no_Mi.png"
   },
   {
     "name": "Horu Horu no Mi",
@@ -682,7 +345,7 @@
     "name": "Ito Ito no Mi",
     "type": "Paramecia",
     "abilities": "Allows the user to create and manipulate strings, making the user a String Human",
-    "image": "file:///C:/Users/usuari/source/repos/one_piece_database/data/raw/devil_fruits_imgs/Ito_Ito_no_Mi.png"
+    "image": "../data/devil_fruits_imgs/Ito_Ito_no_Mi.png"
   },
   {
     "name": "Jake Jake no Mi",
@@ -694,7 +357,7 @@
     "name": "Jiki Jiki no Mi",
     "type": "Paramecia",
     "abilities": "Allows the user to create magnetic forces and use them to control metal",
-    "image": "file:///C:/Users/usuari/source/repos/one_piece_database/data/raw/devil_fruits_imgs/Jiki_Jiki_no_Mi.png"
+    "image": "../data/devil_fruits_imgs/Jiki_Jiki_no_Mi.png"
   },
   {
     "name": "Juku Juku no Mi",
@@ -706,7 +369,7 @@
     "name": "Kage Kage no Mi",
     "type": "Paramecia",
     "abilities": "Gives the user the ability to manifest and control shadows of living creatures, including their own, as physical and tangible forms",
-    "image": "file:///C:/Users/usuari/source/repos/one_piece_database/data/raw/devil_fruits_imgs/Kage_Kage_no_Mi.png"
+    "image": "../data/devil_fruits_imgs/Kage_Kage_no_Mi.png"
   },
   {
     "name": "Kame Kame no Mi",
@@ -730,7 +393,7 @@
     "name": "Kiro Kiro no Mi",
     "type": "Paramecia",
     "abilities": "Allows the user to change their weight from 1 to 10,000 kilograms without, in any way, affecting the overall size of their body",
-    "image": "file:///C:/Users/usuari/source/repos/one_piece_database/data/raw/devil_fruits_imgs/Kiro_Kiro_no_Mi.png"
+    "image": "../data/devil_fruits_imgs/Kiro_Kiro_no_Mi.png"
   },
   {
     "name": "Kobu Kobu no Mi",
@@ -772,7 +435,7 @@
     "name": "Mane Mane no Mi",
     "type": "Paramecia",
     "abilities": "Allows the user to turn themselves into a physical double of anyone they touch, making the user an Imitating Human",
-    "image": "file:///C:/Users/usuari/source/repos/one_piece_database/data/raw/devil_fruits_imgs/Mane_Mane_no_Mi.png"
+    "image": "../data/devil_fruits_imgs/Mane_Mane_no_Mi.png"
   },
   {
     "name": "Mato Mato no Mi",
@@ -790,13 +453,13 @@
     "name": "Mera Mera no Mi",
     "type": "Logia",
     "abilities": "Allows the user to create, control, and transform into fire at will",
-    "image": "file:///C:/Users/usuari/source/repos/one_piece_database/data/raw/devil_fruits_imgs/Mera_Mera_no_Mi.png"
+    "image": "../data/devil_fruits_imgs/Mera_Mera_no_Mi.png"
   },
   {
     "name": "Mero Mero no Mi",
     "type": "Paramecia",
     "abilities": "Allows a range of attacks which use emotions of love, lust or adoration to transform opponents into stone",
-    "image": "file:///C:/Users/usuari/source/repos/one_piece_database/data/raw/devil_fruits_imgs/Mero_Mero_no_Mi.png"
+    "image": "../data/devil_fruits_imgs/Mero_Mero_no_Mi.png"
   },
   {
     "name": "Mira Mira no Mi",
@@ -808,7 +471,7 @@
     "name": "Mochi Mochi no Mi",
     "type": "Special Paramecia",
     "abilities": "Allows the user to create, control, and transform into mochi",
-    "image": "file:///C:/Users/usuari/source/repos/one_piece_database/data/raw/devil_fruits_imgs/Mochi_Mochi_no_Mi.png"
+    "image": "../data/devil_fruits_imgs/Mochi_Mochi_no_Mi.png"
   },
   {
     "name": "Mogu Mogu no Mi",
@@ -820,7 +483,7 @@
     "name": "Moku Moku no Mi",
     "type": "Logia",
     "abilities": "Allows the user to create, control, and transform into smoke at will, making the user a Smoke Human",
-    "image": "file:///C:/Users/usuari/source/repos/one_piece_database/data/raw/devil_fruits_imgs/Moku_Moku_no_Mi.png"
+    "image": "../data/devil_fruits_imgs/Moku_Moku_no_Mi.png"
   },
   {
     "name": "Mori Mori no Mi",
@@ -874,7 +537,7 @@
     "name": "Nikyu Nikyu no Mi",
     "type": "Paramecia",
     "abilities": "Grants the ability to repel anything via paws permanently manifested on the user's palms, making the user a Paw Human",
-    "image": "file:///C:/Users/usuari/source/repos/one_piece_database/data/raw/devil_fruits_imgs/Nikyu_Nikyu_no_Mi.png"
+    "image": "../data/devil_fruits_imgs/Nikyu_Nikyu_no_Mi.png"
   },
   {
     "name": "Nomi Nomi no Mi",
@@ -898,7 +561,7 @@
     "name": "Nui Nui no Mi",
     "type": "Paramecia",
     "abilities": "Grants the user the ability to stitch things together and un-stitch them like if nothing had happened",
-    "image": "file:///C:/Users/usuari/source/repos/one_piece_database/data/raw/devil_fruits_imgs/Nui_Nui_no_Mi.png"
+    "image": "../data/devil_fruits_imgs/Nui_Nui_no_Mi.png"
   },
   {
     "name": "Numa Numa no Mi",
@@ -910,7 +573,7 @@
     "name": "Ope Ope no Mi",
     "type": "Paramecia",
     "abilities": "Grants the power to create a spherical domain, inside of which the user can freely rearrange, take apart , and \"surgically\" remodel anything and anyone, including themself, making the user a Free Modification Human",
-    "image": "file:///C:/Users/usuari/source/repos/one_piece_database/data/raw/devil_fruits_imgs/Ope_Ope_no_Mi.png"
+    "image": "../data/devil_fruits_imgs/Ope_Ope_no_Mi.png"
   },
   {
     "name": "Ori Ori no Mi",
@@ -1060,7 +723,7 @@
     "name": "Sube Sube no Mi",
     "type": "Paramecia",
     "abilities": "Makes the user's body smooth and slippery, which in turn makes most attacks and objects slide off their body, protecting the user from harm in most situations",
-    "image": "file:///C:/Users/usuari/source/repos/one_piece_database/data/raw/devil_fruits_imgs/Sube_Sube_no_Mi.png"
+    "image": "../data/devil_fruits_imgs/Sube_Sube_no_Mi.png"
   },
   {
     "name": "Sui Sui no Mi",
@@ -1078,13 +741,13 @@
     "name": "Suna Suna no Mi",
     "type": "Logia",
     "abilities": "Allows the user to create, control, and transform into sand at will, turning the user into a Sand Human",
-    "image": "file:///C:/Users/usuari/source/repos/one_piece_database/data/raw/devil_fruits_imgs/Suna_Suna_no_Mi.png"
+    "image": "../data/devil_fruits_imgs/Suna_Suna_no_Mi.png"
   },
   {
     "name": "Supa Supa no Mi",
     "type": "Paramecia",
     "abilities": "Enables the user's body to gain characteristics of a steel blade to attack opponents with, making the user a Full-Body Bladed Human",
-    "image": "file:///C:/Users/usuari/source/repos/one_piece_database/data/raw/devil_fruits_imgs/Supa_Supa_no_Mi.png"
+    "image": "../data/devil_fruits_imgs/Supa_Supa_no_Mi.png"
   },
   {
     "name": "Susu Susu no Mi",
@@ -1198,13 +861,13 @@
     "name": "Yami Yami no Mi",
     "type": "Logia",
     "abilities": "Allows the user to create, control, and transform into darkness at will, making the user a Darkness Human",
-    "image": "file:///C:/Users/usuari/source/repos/one_piece_database/data/raw/devil_fruits_imgs/Yami_Yami_no_Mi.png"
+    "image": "../data/devil_fruits_imgs/Yami_Yami_no_Mi.png"
   },
   {
     "name": "Yomi Yomi no Mi",
     "type": "Paramecia",
     "abilities": "Strengthens the user's soul to the point where they resurrect after their first death, allowing them to live a second time and to use several other soul -based abilities, making the user a Reviving Human",
-    "image": "file:///C:/Users/usuari/source/repos/one_piece_database/data/raw/devil_fruits_imgs/Yomi_Yomi_no_Mi.png"
+    "image": "../data/devil_fruits_imgs/Yomi_Yomi_no_Mi.png"
   },
   {
     "name": "Yuki Yuki no Mi",
@@ -1232,256 +895,253 @@
   }
 ];
 
-      const book = document.getElementById("devil-book");
+    const book = document.getElementById("devil-book");
 
-      function playPageFlip() {
-        const sound = document.getElementById("pageFlipSound");
-        if (sound) {
-          sound.currentTime = 0;
-          sound.play().catch(() => {});
-        }
+    function playPageFlip() {
+      const sound = document.getElementById("pageFlipSound");
+      if (sound) {
+        sound.currentTime = 0;
+        sound.play().catch(() => {});
       }
+    }
 
-      function chunkArray(array, size) {
-        const chunks = [];
-        for (let i = 0; i < array.length; i += size) {
-          chunks.push(array.slice(i, i + size));
-        }
-        return chunks;
+    function chunkArray(array, size) {
+      const chunks = [];
+      for (let i = 0; i < array.length; i += size) {
+        chunks.push(array.slice(i, i + size));
       }
+      return chunks;
+    }
 
-      function createEntryHTML(entry, globalIndex) {
-        return `
-          <div class="entry" data-entry-index="${globalIndex}">
-            <div class="entry-image">
-              ${
-                entry.image
-                  ? `<img src="${entry.image}" alt="${entry.name}">`
-                  : `<div class="no-img">No image<br>available</div>`
-              }
-            </div>
-            <div class="entry-text">
-              <div class="devil-title">${entry.name}</div>
-              <div class="devil-meta">Type: ${entry.type}</div>
-              <div class="devil-abilities">${entry.abilities}</div>
-            </div>
-          </div>`;
-      }
+    function createEntryHTML(entry, globalIndex) {
+      return `
+        <div class="entry" data-entry-index="${globalIndex}">
+          <div class="entry-image">
+            ${
+              entry.image
+                ? `<img src="${entry.image}" alt="${entry.name}">`
+                : `<div class="no-img">No image<br>available</div>`
+            }
+          </div>
+          <div class="entry-text">
+            <div class="devil-title">${entry.name}</div>
+            <div class="devil-meta">Type: ${entry.type}</div>
+            <div class="devil-abilities">${entry.abilities}</div>
+          </div>
+        </div>`;
+    }
 
-      function createPage(frontEntries = [], backEntries = [], index, globalStartIndex) {
-        const page = document.createElement("div");
-        page.className = "page";
-        page.style.setProperty("--i", index + 1);
+    function createPage(frontEntries = [], backEntries = [], index, globalStartIndex) {
+      const page = document.createElement("div");
+      page.className = "page";
+      page.style.setProperty("--i", index + 1);
 
-        const front = document.createElement("div");
-        front.className = "front";
-        front.innerHTML = `<div class="page-content">${frontEntries
-          .map((e, idx) => createEntryHTML(e, globalStartIndex + idx))
-          .join("")}</div>`;
+      const front = document.createElement("div");
+      front.className = "front";
+      front.innerHTML = `<div class="page-content">${frontEntries
+        .map((e, idx) => createEntryHTML(e, globalStartIndex + idx))
+        .join("")}</div>`;
 
-        const back = document.createElement("div");
-        back.className = "back";
-        back.innerHTML = `<div class="page-content">${backEntries
-          .map((e, idx) => createEntryHTML(e, globalStartIndex + frontEntries.length + idx))
-          .join("")}</div>`;
+      const back = document.createElement("div");
+      back.className = "back";
+      back.innerHTML = `<div class="page-content">${backEntries
+        .map((e, idx) => createEntryHTML(e, globalStartIndex + frontEntries.length + idx))
+        .join("")}</div>`;
 
-        page.appendChild(front);
-        page.appendChild(back);
-        return page;
-      }
+      page.appendChild(front);
+      page.appendChild(back);
+      return page;
+    }
 
-      const groups = chunkArray(entries, 8);
-      groups.forEach((group, i) => {
-        const frontEntries = group.slice(0, 4);
-        const backEntries = group.slice(4);
-        const globalStart = i * 8;
-        const page = createPage(frontEntries, backEntries, i, globalStart);
-        book.appendChild(page);
+    const groups = chunkArray(entries, 8);
+    groups.forEach((group, i) => {
+      const frontEntries = group.slice(0, 4);
+      const backEntries = group.slice(4);
+      const globalStart = i * 8;
+      const page = createPage(frontEntries, backEntries, i, globalStart);
+      book.appendChild(page);
+    });
+
+    const backCoverPage = document.createElement("div");
+    backCoverPage.className = "page backcover";
+    backCoverPage.style.setProperty("--i", groups.length);
+    const backFront = document.createElement("div");
+    backFront.className = "front";
+    backFront.innerHTML = `<div class="page-content"></div>`;
+    const backBack = document.createElement("div");
+    backBack.className = "back";
+    backCoverPage.appendChild(backFront);
+    backCoverPage.appendChild(backBack);
+    book.appendChild(backCoverPage);
+
+    const flipBook = (elBook) => {
+      elBook.style.setProperty("--c", 0);
+      const pages = elBook.querySelectorAll(".page");
+      const lastIndex = pages.length - 1;
+      const maxC = pages.length;
+
+      pages.forEach((page, i) => {
+        page.style.setProperty("--i", i);
+        page.addEventListener("click", (evt) => {
+          const onBack = !!evt.target.closest(".back");
+          let c = onBack ? i : i + 1;
+          c = Math.max(0, Math.min(c, maxC));
+          elBook.style.setProperty("--c", c);
+          playPageFlip();
+        });
+      });
+    };
+    flipBook(book);
+
+    const enableRotation = (elBook) => {
+      let rotating = false,
+        sx = 0,
+        sy = 0,
+        rx = 0,
+        ry = 0;
+      document.addEventListener("contextmenu", (e) => e.preventDefault());
+      document.addEventListener("mousedown", (e) => {
+        if (e.button !== 2) return;
+        rotating = true;
+        sx = e.clientX;
+        sy = e.clientY;
+      });
+      document.addEventListener("mousemove", (e) => {
+        if (!rotating) return;
+        ry += (e.clientX - sx) * 0.4;
+        rx -= (e.clientY - sy) * 0.4;
+        sx = e.clientX;
+        sy = e.clientY;
+        elBook.style.setProperty("--rx", `${rx}deg`);
+        elBook.style.setProperty("--ry", `${ry}deg`);
+      });
+      document.addEventListener("mouseup", () => (rotating = false));
+    };
+    enableRotation(book);
+
+    (function placeLetterTabsExactly() {
+      const pages = Array.from(book.querySelectorAll(".page"));
+      if (pages.length === 0) return;
+
+      const letterFirstPage = {};
+      pages.forEach((pageEl, pageIdx) => {
+        const titles = pageEl.querySelectorAll(".devil-title");
+        titles.forEach((titleEl) => {
+          const txt = (titleEl.textContent || "").trim();
+          if (!txt) return;
+          const ch = txt.charAt(0).toUpperCase();
+          if (ch >= "A" && ch <= "Z" && !(ch in letterFirstPage)) {
+            letterFirstPage[ch] = { pageEl, pageIdx, titleEl };
+          }
+        });
       });
 
-      const backCoverPage = document.createElement("div");
-      backCoverPage.className = "page backcover";
-      backCoverPage.style.setProperty("--i", groups.length);
-      const backFront = document.createElement("div");
-      backFront.className = "front";
-      backFront.innerHTML = `<div class="page-content"></div>`;
-      const backBack = document.createElement("div");
-      backBack.className = "back";
-      backCoverPage.appendChild(backFront);
-      backCoverPage.appendChild(backBack);
-      book.appendChild(backCoverPage);
+      const letters = Object.keys(letterFirstPage).sort();
+      const M = letters.length;
+      if (M === 0) return;
 
-      const flipBook = (elBook) => {
-        elBook.style.setProperty("--c", 0);
-        const pages = elBook.querySelectorAll(".page");
-        const lastIndex = pages.length - 1;
-        const maxC = pages.length;
-
-        pages.forEach((page, i) => {
-          page.style.setProperty("--i", i);
-          page.addEventListener("click", (evt) => {
-            const onBack = !!evt.target.closest(".back");
-            let c = onBack ? i : i + 1;
-            c = Math.max(0, Math.min(c, maxC));
-            elBook.style.setProperty("--c", c);
-            playPageFlip();
-          });
+      function clearOldTabs() {
+        pages.forEach((p) => {
+          p.querySelectorAll(".tab._auto").forEach((el) => el.remove());
         });
-      };
-      flipBook(book);
+      }
 
-      const enableRotation = (elBook) => {
-        let rotating = false,
-          sx = 0,
-          sy = 0,
-          rx = 0,
-          ry = 0;
-        document.addEventListener("contextmenu", (e) => e.preventDefault());
-        document.addEventListener("mousedown", (e) => {
-          if (e.button !== 2) return;
-          rotating = true;
-          sx = e.clientX;
-          sy = e.clientY;
-        });
-        document.addEventListener("mousemove", (e) => {
-          if (!rotating) return;
-          ry += (e.clientX - sx) * 0.4;
-          rx -= (e.clientY - sy) * 0.4;
-          sx = e.clientX;
-          sy = e.clientY;
-          elBook.style.setProperty("--rx", `${rx}deg`);
-          elBook.style.setProperty("--ry", `${ry}deg`);
-        });
-        document.addEventListener("mouseup", () => (rotating = false));
-      };
-      enableRotation(book);
+      function computeAndPlace() {
+        clearOldTabs();
 
-      (function placeLetterTabsExactly() {
-        const pages = Array.from(book.querySelectorAll(".page"));
-        if (pages.length === 0) return;
+        const bookRect = book.getBoundingClientRect();
+        if (!bookRect.height) return;
+        const bandHeight = bookRect.height / M;
 
-        const letterFirstPage = {};
-        pages.forEach((pageEl, pageIdx) => {
-          const titles = pageEl.querySelectorAll(".devil-title");
-          titles.forEach((titleEl) => {
-            const txt = (titleEl.textContent || "").trim();
-            if (!txt) return;
-            const ch = txt.charAt(0).toUpperCase();
-            if (ch >= "A" && ch <= "Z" && !(ch in letterFirstPage)) {
-              letterFirstPage[ch] = { pageEl, pageIdx, titleEl };
+        letters.forEach((L, idx) => {
+          const info = letterFirstPage[L];
+          if (!info) return;
+          const targetPage = info.pageEl;
+
+          const bandTopInBook = bookRect.top + idx * bandHeight;
+          const bandHeightInBook = bandHeight;
+
+          const pageRect = targetPage.getBoundingClientRect();
+
+          let topPercent, heightPercent;
+          if (pageRect.height > 0) {
+            topPercent = ((bandTopInBook - pageRect.top) / pageRect.height) * 100;
+            heightPercent = (bandHeightInBook / pageRect.height) * 100;
+          } else {
+            topPercent = (idx * (100 / M));
+            heightPercent = (100 / M);
+          }
+
+          if (idx === 0) {
+            topPercent = Math.max(topPercent, 0);
+          }
+
+          if (topPercent < -60) topPercent = -60;
+          if (topPercent > 160) topPercent = 160;
+
+          if (idx === M - 1) {
+            const bottom = topPercent + heightPercent;
+            if (bottom < 100) {
+              const needed = 100 - topPercent + 0.5;
+              heightPercent = Math.min(needed, 110);
             }
-          });
-        });
+          }
 
-        const letters = Object.keys(letterFirstPage).sort();
-        const M = letters.length;
-        if (M === 0) return;
+          const tab = document.createElement("div");
+          tab.className = "tab _auto";
+          tab.textContent = L;
 
-        function clearOldTabs() {
-          pages.forEach((p) => {
-            p.querySelectorAll(".tab._auto").forEach((el) => el.remove());
-          });
-        }
+          tab.style.position = "absolute";
+          tab.style.top = `${topPercent}%`;
+          tab.style.height = `${heightPercent}%`;
+          tab.style.right = "-33px";
+          tab.style.visibility = "visible";
+          tab.style.pointerEvents = "auto";
 
-        function computeAndPlace() {
-          clearOldTabs();
+          targetPage.appendChild(tab);
 
-          const bookRect = book.getBoundingClientRect();
-          if (!bookRect.height) return;
-          const bandHeight = bookRect.height / M;
+          tab.addEventListener("click", (evt) => {
+            evt.stopImmediatePropagation();
+            evt.preventDefault();
 
-          letters.forEach((L, idx) => {
-            const info = letterFirstPage[L];
-            if (!info) return;
-            const targetPage = info.pageEl;
-
-            const bandTopInBook = bookRect.top + idx * bandHeight;
-            const bandHeightInBook = bandHeight;
-
-            const pageRect = targetPage.getBoundingClientRect();
-
-            let topPercent, heightPercent;
-            if (pageRect.height > 0) {
-              topPercent = ((bandTopInBook - pageRect.top) / pageRect.height) * 100;
-              heightPercent = (bandHeightInBook / pageRect.height) * 100;
-            } else {
-              topPercent = (idx * (100 / M));
-              heightPercent = (100 / M);
+            const titleEl = info.titleEl;
+            let entryEl = titleEl && titleEl.closest && titleEl.closest(".entry");
+            let globalIndex = null;
+            if (entryEl && entryEl.dataset && entryEl.dataset.entryIndex != null) {
+              globalIndex = parseInt(entryEl.dataset.entryIndex, 10);
             }
 
-            if (idx === 0) {
-              topPercent = Math.max(topPercent, 0);
-            }
+            const pagesAll = Array.from(book.querySelectorAll(".page"));
+            const maxC = pagesAll.length;
 
-            if (topPercent < -60) topPercent = -60;
-            if (topPercent > 160) topPercent = 160;
-
-            if (idx === M - 1) {
-              const bottom = topPercent + heightPercent;
-              if (bottom < 100) {
-                const needed = 100 - topPercent + 0.5;
-                heightPercent = Math.min(needed, 110);
-              }
-            }
-
-            const tab = document.createElement("div");
-            tab.className = "tab _auto";
-            tab.textContent = L;
-
-            tab.style.position = "absolute";
-            tab.style.top = `${topPercent}%`;
-            tab.style.height = `${heightPercent}%`;
-            tab.style.right = "-33px";
-            tab.style.visibility = "visible";
-            tab.style.pointerEvents = "auto";
-
-            targetPage.appendChild(tab);
-
-            tab.addEventListener("click", (evt) => {
-              evt.stopImmediatePropagation();
-              evt.preventDefault();
-
-              const titleEl = info.titleEl;
-              let entryEl = titleEl && titleEl.closest && titleEl.closest(".entry");
-              let globalIndex = null;
-              if (entryEl && entryEl.dataset && entryEl.dataset.entryIndex != null) {
-                globalIndex = parseInt(entryEl.dataset.entryIndex, 10);
-              }
-
-              const pagesAll = Array.from(book.querySelectorAll(".page"));
-              const maxC = pagesAll.length;
-
-              if (globalIndex == null || Number.isNaN(globalIndex)) {
-                const domIndex = pagesAll.indexOf(info.pageEl);
-                const target = Math.max(0, Math.min(maxC, domIndex + 1));
-                book.style.setProperty("--c", target);
-                playPageFlip();
-                tab.animate([{ transform: "scale(1)" }, { transform: "scale(1.06)" }, { transform: "scale(1)" }], { duration: 220 });
-                return;
-              }
-
-              const sheetIndex = Math.floor(globalIndex / 8);
-              const posInSheet = globalIndex % 8;
-              const domPageIndex = pagesAll.indexOf(info.pageEl);
-              const desiredC = posInSheet < 4 ? domPageIndex  : domPageIndex + 1;
-              const clamped = Math.max(0, Math.min(maxC, desiredC));
-              book.style.setProperty("--c", clamped);
+            if (globalIndex == null || Number.isNaN(globalIndex)) {
+              const domIndex = pagesAll.indexOf(info.pageEl);
+              const target = Math.max(0, Math.min(maxC, domIndex + 1));
+              book.style.setProperty("--c", target);
               playPageFlip();
               tab.animate([{ transform: "scale(1)" }, { transform: "scale(1.06)" }, { transform: "scale(1)" }], { duration: 220 });
-            });
+              return;
+            }
 
+            const sheetIndex = Math.floor(globalIndex / 8);
+            const posInSheet = globalIndex % 8;
+            const domPageIndex = pagesAll.indexOf(info.pageEl);
+            const desiredC = posInSheet < 4 ? domPageIndex  : domPageIndex + 1;
+            const clamped = Math.max(0, Math.min(maxC, desiredC));
+            book.style.setProperty("--c", clamped);
+            playPageFlip();
+            tab.animate([{ transform: "scale(1)" }, { transform: "scale(1.06)" }, { transform: "scale(1)" }], { duration: 220 });
           });
-        }
 
-        setTimeout(computeAndPlace, 40);
-        setTimeout(computeAndPlace, 260);
-        setTimeout(computeAndPlace, 800);
-        window.addEventListener("resize", () => {
-          clearTimeout(window._tabs_place_timer);
-          window._tabs_place_timer = setTimeout(computeAndPlace, 120);
         });
-      })();
+      }
 
-    </script>
-  </body>
-</html>
+      setTimeout(computeAndPlace, 40);
+      setTimeout(computeAndPlace, 260);
+      setTimeout(computeAndPlace, 800);
+      window.addEventListener("resize", () => {
+        clearTimeout(window._tabs_place_timer);
+        window._tabs_place_timer = setTimeout(computeAndPlace, 120);
+      });
+    })();
+    
