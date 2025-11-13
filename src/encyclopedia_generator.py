@@ -13,8 +13,9 @@ out_dir.mkdir(parents=True, exist_ok=True)
 out_index = out_dir / "index.html"
 out_css = out_dir / "styles.css"
 out_js = out_dir / "script.js"
-img_base = ROOT / "data" / "devil_fruits_imgs"
-mp3_path = ROOT / "assets" / "turn_a_page.mp3"
+img_base = out_dir / "data" / "devil_fruits_imgs"
+img_base.mkdir(parents=True, exist_ok=True)
+mp3_path = out_dir / "assets" / "turn_a_page.mp3"
 
 
 def main():
