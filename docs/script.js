@@ -15,13 +15,13 @@ const entries = [
     "name": "Awa Awa no Mi",
     "type": "Paramecia",
     "abilities": "Allows the user to emit and control soap and bubbles that can not only clean off dirt but can also \"clean off\" power, making the user a Soap Human",
-    "image": "../data/devil_fruits_imgs/Awa_Awa_no_Mi.png"
+    "image": "data/devil_fruits_imgs/Awa_Awa_no_Mi.png"
   },
   {
     "name": "Baku Baku no Mi",
     "type": "Paramecia",
     "abilities": "Allows the user to eat any object, including living beings, and merge it into their body or with other objects they eat",
-    "image": "../data/devil_fruits_imgs/Baku_Baku_no_Mi.png"
+    "image": "data/devil_fruits_imgs/Baku_Baku_no_Mi.png"
   },
   {
     "name": "Bane Bane no Mi",
@@ -33,7 +33,7 @@ const entries = [
     "name": "Bara Bara no Mi",
     "type": "Paramecia",
     "abilities": "Allows the user to split their own body into pieces and levitate said pieces at will, while granting a passive immunity to all slashes and cuts, making the user a Splitting Human",
-    "image": "../data/devil_fruits_imgs/Bara_Bara_no_Mi.png"
+    "image": "data/devil_fruits_imgs/Bara_Bara_no_Mi.png"
   },
   {
     "name": "Bari Bari no Mi",
@@ -75,7 +75,7 @@ const entries = [
     "name": "Bomu Bomu no Mi",
     "type": "Paramecia",
     "abilities": "Allows the user to make any part of their body explode , whether it be their limbs, hair, mucus, even breath or cough, making the user a Bomb Human",
-    "image": "../data/devil_fruits_imgs/Bomu_Bomu_no_Mi.png"
+    "image": "data/devil_fruits_imgs/Bomu_Bomu_no_Mi.png"
   },
   {
     "name": "Buki Buki no Mi",
@@ -123,13 +123,13 @@ const entries = [
     "name": "Doru Doru no Mi",
     "type": "Paramecia",
     "abilities": "Allows the user to create large quantities of candle wax from their body and control it, making the user a Candle Human",
-    "image": "../data/devil_fruits_imgs/Doru_Doru_no_Mi.png"
+    "image": "data/devil_fruits_imgs/Doru_Doru_no_Mi.png"
   },
   {
     "name": "Fude Fude no Mi",
     "type": "Paramecia",
     "abilities": "Allows the user to generate ink from their body and use a painting brush to turn images created with that ink into three-dimensional, lifelike objects",
-    "image": "../data/devil_fruits_imgs/Fude_Fude_no_Mi.png"
+    "image": "data/devil_fruits_imgs/Fude_Fude_no_Mi.png"
   },
   {
     "name": "Fuku Fuku no Mi",
@@ -171,13 +171,13 @@ const entries = [
     "name": "Gomu Gomu no Mi",
     "type": "Paramecia Mythical Zoan",
     "abilities": "Grants the user's body the properties of rubber, effectively making them a Rubber Human",
-    "image": "../data/devil_fruits_imgs/Gomu_Gomu_no_Mi.png"
+    "image": "data/devil_fruits_imgs/Gomu_Gomu_no_Mi.png"
   },
   {
     "name": "Goro Goro no Mi",
     "type": "Logia",
     "abilities": "Grants the power to create, control, and become lightning at will, making the user a Lightning Human  ; it is one of the few abilities touted as \"invincible\" according to Nico Robin",
-    "image": "../data/devil_fruits_imgs/Goro_Goro_no_Mi.png"
+    "image": "data/devil_fruits_imgs/Goro_Goro_no_Mi.png"
   },
   {
     "name": "Gunyo Gunyo no Mi",
@@ -189,7 +189,7 @@ const entries = [
     "name": "Gura Gura no Mi",
     "type": "Paramecia",
     "abilities": "Allows the user to create vibrations, or \"quakes\", making the user a Tremor Human",
-    "image": "../data/devil_fruits_imgs/Gura_Gura_no_Mi.png"
+    "image": "data/devil_fruits_imgs/Gura_Gura_no_Mi.png"
   },
   {
     "name": "Guru Guru no Mi",
@@ -201,7 +201,7 @@ const entries = [
     "name": "Hana Hana no Mi",
     "type": "Paramecia",
     "abilities": "Allows the user to replicate and sprout pieces of their body from the surface of any object or living thing",
-    "image": "../data/devil_fruits_imgs/Hana_Hana_no_Mi.png"
+    "image": "data/devil_fruits_imgs/Hana_Hana_no_Mi.png"
   },
   {
     "name": "Hebi Hebi no Mi, Model: Anaconda",
@@ -237,7 +237,7 @@ const entries = [
     "name": "Hito Hito no Mi",
     "type": "Zoan",
     "abilities": "Allows its user to transform into a human hybrid or a human at will",
-    "image": "../data/devil_fruits_imgs/Hito_Hito_no_Mi.png"
+    "image": "data/devil_fruits_imgs/Hito_Hito_no_Mi.png"
   },
   {
     "name": "Hito Hito no Mi, Model: Daibutsu",
@@ -261,13 +261,13 @@ const entries = [
     "name": "Hobi Hobi no Mi",
     "type": "Paramecia",
     "abilities": "Allows the user to transform living people into toys , and erase memories of their existence from others",
-    "image": "../data/devil_fruits_imgs/Hobi_Hobi_no_Mi.png"
+    "image": "data/devil_fruits_imgs/Hobi_Hobi_no_Mi.png"
   },
   {
     "name": "Horo Horo no Mi",
     "type": "Paramecia",
     "abilities": "Allows the user to conjure ghosts, making the user a Ghost Human",
-    "image": "../data/devil_fruits_imgs/Horo_Horo_no_Mi.png"
+    "image": "data/devil_fruits_imgs/Horo_Horo_no_Mi.png"
   },
   {
     "name": "Horu Horu no Mi",
@@ -345,7 +345,7 @@ const entries = [
     "name": "Ito Ito no Mi",
     "type": "Paramecia",
     "abilities": "Allows the user to create and manipulate strings, making the user a String Human",
-    "image": "../data/devil_fruits_imgs/Ito_Ito_no_Mi.png"
+    "image": "data/devil_fruits_imgs/Ito_Ito_no_Mi.png"
   },
   {
     "name": "Jake Jake no Mi",
@@ -357,7 +357,7 @@ const entries = [
     "name": "Jiki Jiki no Mi",
     "type": "Paramecia",
     "abilities": "Allows the user to create magnetic forces and use them to control metal",
-    "image": "../data/devil_fruits_imgs/Jiki_Jiki_no_Mi.png"
+    "image": "data/devil_fruits_imgs/Jiki_Jiki_no_Mi.png"
   },
   {
     "name": "Juku Juku no Mi",
@@ -369,7 +369,7 @@ const entries = [
     "name": "Kage Kage no Mi",
     "type": "Paramecia",
     "abilities": "Gives the user the ability to manifest and control shadows of living creatures, including their own, as physical and tangible forms",
-    "image": "../data/devil_fruits_imgs/Kage_Kage_no_Mi.png"
+    "image": "data/devil_fruits_imgs/Kage_Kage_no_Mi.png"
   },
   {
     "name": "Kame Kame no Mi",
@@ -393,7 +393,7 @@ const entries = [
     "name": "Kiro Kiro no Mi",
     "type": "Paramecia",
     "abilities": "Allows the user to change their weight from 1 to 10,000 kilograms without, in any way, affecting the overall size of their body",
-    "image": "../data/devil_fruits_imgs/Kiro_Kiro_no_Mi.png"
+    "image": "data/devil_fruits_imgs/Kiro_Kiro_no_Mi.png"
   },
   {
     "name": "Kobu Kobu no Mi",
@@ -435,7 +435,7 @@ const entries = [
     "name": "Mane Mane no Mi",
     "type": "Paramecia",
     "abilities": "Allows the user to turn themselves into a physical double of anyone they touch, making the user an Imitating Human",
-    "image": "../data/devil_fruits_imgs/Mane_Mane_no_Mi.png"
+    "image": "data/devil_fruits_imgs/Mane_Mane_no_Mi.png"
   },
   {
     "name": "Mato Mato no Mi",
@@ -453,13 +453,13 @@ const entries = [
     "name": "Mera Mera no Mi",
     "type": "Logia",
     "abilities": "Allows the user to create, control, and transform into fire at will",
-    "image": "../data/devil_fruits_imgs/Mera_Mera_no_Mi.png"
+    "image": "data/devil_fruits_imgs/Mera_Mera_no_Mi.png"
   },
   {
     "name": "Mero Mero no Mi",
     "type": "Paramecia",
     "abilities": "Allows a range of attacks which use emotions of love, lust or adoration to transform opponents into stone",
-    "image": "../data/devil_fruits_imgs/Mero_Mero_no_Mi.png"
+    "image": "data/devil_fruits_imgs/Mero_Mero_no_Mi.png"
   },
   {
     "name": "Mira Mira no Mi",
@@ -471,7 +471,7 @@ const entries = [
     "name": "Mochi Mochi no Mi",
     "type": "Special Paramecia",
     "abilities": "Allows the user to create, control, and transform into mochi",
-    "image": "../data/devil_fruits_imgs/Mochi_Mochi_no_Mi.png"
+    "image": "data/devil_fruits_imgs/Mochi_Mochi_no_Mi.png"
   },
   {
     "name": "Mogu Mogu no Mi",
@@ -483,7 +483,7 @@ const entries = [
     "name": "Moku Moku no Mi",
     "type": "Logia",
     "abilities": "Allows the user to create, control, and transform into smoke at will, making the user a Smoke Human",
-    "image": "../data/devil_fruits_imgs/Moku_Moku_no_Mi.png"
+    "image": "data/devil_fruits_imgs/Moku_Moku_no_Mi.png"
   },
   {
     "name": "Mori Mori no Mi",
@@ -537,7 +537,7 @@ const entries = [
     "name": "Nikyu Nikyu no Mi",
     "type": "Paramecia",
     "abilities": "Grants the ability to repel anything via paws permanently manifested on the user's palms, making the user a Paw Human",
-    "image": "../data/devil_fruits_imgs/Nikyu_Nikyu_no_Mi.png"
+    "image": "data/devil_fruits_imgs/Nikyu_Nikyu_no_Mi.png"
   },
   {
     "name": "Nomi Nomi no Mi",
@@ -561,7 +561,7 @@ const entries = [
     "name": "Nui Nui no Mi",
     "type": "Paramecia",
     "abilities": "Grants the user the ability to stitch things together and un-stitch them like if nothing had happened",
-    "image": "../data/devil_fruits_imgs/Nui_Nui_no_Mi.png"
+    "image": "data/devil_fruits_imgs/Nui_Nui_no_Mi.png"
   },
   {
     "name": "Numa Numa no Mi",
@@ -573,7 +573,7 @@ const entries = [
     "name": "Ope Ope no Mi",
     "type": "Paramecia",
     "abilities": "Grants the power to create a spherical domain, inside of which the user can freely rearrange, take apart , and \"surgically\" remodel anything and anyone, including themself, making the user a Free Modification Human",
-    "image": "../data/devil_fruits_imgs/Ope_Ope_no_Mi.png"
+    "image": "data/devil_fruits_imgs/Ope_Ope_no_Mi.png"
   },
   {
     "name": "Ori Ori no Mi",
@@ -723,7 +723,7 @@ const entries = [
     "name": "Sube Sube no Mi",
     "type": "Paramecia",
     "abilities": "Makes the user's body smooth and slippery, which in turn makes most attacks and objects slide off their body, protecting the user from harm in most situations",
-    "image": "../data/devil_fruits_imgs/Sube_Sube_no_Mi.png"
+    "image": "data/devil_fruits_imgs/Sube_Sube_no_Mi.png"
   },
   {
     "name": "Sui Sui no Mi",
@@ -741,13 +741,13 @@ const entries = [
     "name": "Suna Suna no Mi",
     "type": "Logia",
     "abilities": "Allows the user to create, control, and transform into sand at will, turning the user into a Sand Human",
-    "image": "../data/devil_fruits_imgs/Suna_Suna_no_Mi.png"
+    "image": "data/devil_fruits_imgs/Suna_Suna_no_Mi.png"
   },
   {
     "name": "Supa Supa no Mi",
     "type": "Paramecia",
     "abilities": "Enables the user's body to gain characteristics of a steel blade to attack opponents with, making the user a Full-Body Bladed Human",
-    "image": "../data/devil_fruits_imgs/Supa_Supa_no_Mi.png"
+    "image": "data/devil_fruits_imgs/Supa_Supa_no_Mi.png"
   },
   {
     "name": "Susu Susu no Mi",
@@ -861,13 +861,13 @@ const entries = [
     "name": "Yami Yami no Mi",
     "type": "Logia",
     "abilities": "Allows the user to create, control, and transform into darkness at will, making the user a Darkness Human",
-    "image": "../data/devil_fruits_imgs/Yami_Yami_no_Mi.png"
+    "image": "data/devil_fruits_imgs/Yami_Yami_no_Mi.png"
   },
   {
     "name": "Yomi Yomi no Mi",
     "type": "Paramecia",
     "abilities": "Strengthens the user's soul to the point where they resurrect after their first death, allowing them to live a second time and to use several other soul -based abilities, making the user a Reviving Human",
-    "image": "../data/devil_fruits_imgs/Yomi_Yomi_no_Mi.png"
+    "image": "data/devil_fruits_imgs/Yomi_Yomi_no_Mi.png"
   },
   {
     "name": "Yuki Yuki no Mi",
