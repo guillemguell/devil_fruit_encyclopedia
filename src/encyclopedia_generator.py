@@ -666,7 +666,7 @@ def main():
     <html lang="en">
       <head>
         <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=0.5, maximum-scale=5, user-scalable=yes" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
         <title>DEVIL FRUIT ENCYCLOPEDIA</title>
         <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&display=swap" rel="stylesheet" />
         <link rel="stylesheet" href="styles.css" />
