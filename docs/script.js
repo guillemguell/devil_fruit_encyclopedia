@@ -993,6 +993,16 @@ const entries = [
     };
     flipBook(book);
 
+    function updateBookScale(designWidth = 375) {
+      if (!book) return;
+      const rect = book.getBoundingClientRect();
+      const usedWidth = rect.width || Math.min(window.innerWidth * 0.9, window.innerWidth);
+      const s = Math.min(1, usedWidth / designWidth);
+      book.style.setProperty("--s", s);
+    }
+    window.addEventListener("load", () => updateBookScale(375));
+    window.addEventListener("resize", () => updateBookScale(375));
+
     const enableRotation = (elBook) => {
       let rotating = false,
         sx = 0,

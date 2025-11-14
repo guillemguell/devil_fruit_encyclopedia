@@ -78,7 +78,8 @@ def main():
         else:
             entry["image"] = None
     entries_json = json.dumps(entries, ensure_ascii=False, indent=2)
-    css_content = """* {
+    css_content = """
+    * {
       box-sizing: border-box;
     }
     body {
@@ -91,6 +92,13 @@ def main():
       background-color: #232425;
     }
 
+    html {
+      font-size: clamp(13px, 1.6vw, 16px);
+    }
+
+    html, body { touch-action: auto; -webkit-user-select: auto; -webkit-touch-callout: default; }
+
+
     .book {
       position: relative;
       display: flex;
@@ -101,10 +109,13 @@ def main():
       transform-style: preserve-3d;
       transition: transform 0.3s ease;
       rotate: 1 0 0 30deg;
-      transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
-      max-width: calc(min(375px, 50vw));
+      transform: scale(var(--s,1)) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+      transform-origin: center center;
+      max-width: clamp(220px, 85vw, 375px);
+      width: 100%;
       aspect-ratio: 3 / 4;
     }
+
 
 
     .page {
@@ -214,7 +225,6 @@ def main():
         aspect-ratio: 3 / 2;
         width: 100%;
         max-width: 25%;
-        min-width: 80px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -254,10 +264,10 @@ def main():
         }
 
 
-      @media (max-width: 420px) {
+      /*@media (max-width: 420px) {
         .entry-image { aspect-ratio: 4 / 3; max-width: none; width: 100%; min-height: 110px; }
         .entry-image img { max-height: 160px; }
-      }
+      }*/
 
 
     .entry-text {
@@ -323,7 +333,7 @@ def main():
       color: #F6E9D7;
     }
 
-    @media (max-width: 420px) {
+    /*@media (max-width: 420px) {
       .page .page-content {
         grid-template-rows: repeat(4, auto);
       }
@@ -345,7 +355,7 @@ def main():
       .entry-text {
         padding-left: 0;
       }
-    }
+    }*/
 
     .page .tab {
       right: -33px;
@@ -384,10 +394,10 @@ def main():
       opacity: 0.8;
     }
 
-    @media (max-width: 420px) {
+    /*@media (max-width: 420px) {
       .page .tab { right: -28px; width: 26px; font-size: 0.6rem; }
       .book .tab { right: -28px; width: 26px; font-size: 0.6rem; }
-    }
+    }*/
     """
     js_template = """const entries = <<ENTRIES>>;
 
@@ -488,6 +498,16 @@ def main():
       });
     };
     flipBook(book);
+
+    function updateBookScale(designWidth = 375) {
+      if (!book) return;
+      const rect = book.getBoundingClientRect();
+      const usedWidth = rect.width || Math.min(window.innerWidth * 0.9, window.innerWidth);
+      const s = Math.min(1, usedWidth / designWidth);
+      book.style.setProperty("--s", s);
+    }
+    window.addEventListener("load", () => updateBookScale(375));
+    window.addEventListener("resize", () => updateBookScale(375));
 
     const enableRotation = (elBook) => {
       let rotating = false,
@@ -646,7 +666,7 @@ def main():
     <html lang="en">
       <head>
         <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=5, user-scalable=yes" />
         <title>DEVIL FRUIT ENCYCLOPEDIA</title>
         <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&display=swap" rel="stylesheet" />
         <link rel="stylesheet" href="styles.css" />
