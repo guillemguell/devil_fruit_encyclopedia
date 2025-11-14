@@ -995,13 +995,17 @@ const entries = [
 
     function updateBookScale(designWidth = 375) {
       if (!book) return;
-      const rect = book.getBoundingClientRect();
-      const usedWidth = rect.width || Math.min(window.innerWidth * 0.9, window.innerWidth);
+      const usedWidth = Math.min(window.innerWidth * 0.9, window.innerWidth);
       const s = Math.min(1, usedWidth / designWidth);
       book.style.setProperty("--s", s);
     }
     window.addEventListener("load", () => updateBookScale(375));
-    window.addEventListener("resize", () => updateBookScale(375));
+    let resizeTimer;
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => updateBookScale(375), 80);
+    });
+
 
     const enableRotation = (elBook) => {
       let rotating = false,
